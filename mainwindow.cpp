@@ -4,6 +4,8 @@
 #include <QSerialPortInfo>
 #include <QDebug>
 #include <QString>
+#include <QFile>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,13 +13,19 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->txtData->setPlainText("Welcome\n");
+
+    // set up file
+    log = new QFile("log.txt");
+    log->open(QIODevice::WriteOnly);
+
     // set up serial
     arduino_is_available = false;
     arduino_port_name = "";
     arduino = new QSerialPort;
 
     setupSPI();
-    paused = false;
+    paused = true;
 
     // set up time ticker
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
@@ -32,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->plot_pres->yAxis->setRange(-1.2, 1.2);
 
     ui->plot_pres->xAxis->setLabel("Time elapsed (s)");
-    ui->plot_pres->yAxis->setLabel("Temperature (C)");
+    ui->plot_pres->yAxis->setLabel("Pressure (Bar)");
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(ui->plot_pres->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->plot_pres->xAxis2, SLOT(setRange(QCPRange)));
@@ -86,6 +94,8 @@ void MainWindow::setupSPI(){
 
 void MainWindow::realtimeDataSlot()
 {
+    QTextStream data(log);
+    data << "-- begin run --" << endl;
     if (!paused){
         static QTime time(QTime::currentTime());
 
@@ -93,43 +103,88 @@ void MainWindow::realtimeDataSlot()
         double tick = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
         static double lastTick = 0;
         if (tick-lastTick > 0.1) {
+            qDebug() << "time interval" << tick-lastTick;
             QString readCommandPressure = "#RPRS\n";
             send(readCommandPressure);
+            /*
             QThread::msleep(50);
             while (!(arduino->waitForReadyRead())){
 
             }
+            */
             QByteArray rawPressureData = arduino->readLine();
             double currPressure = rawPressureData.trimmed().toDouble();
 
+            if (currPressure > (double)35.0){
+                // temporary fix for random spikes
+                currPressure = 0;
+            }
+            arduino->clear();
+
             QString readCommandTemp = "#RTMP\n";
             send(readCommandTemp);
+            /*
             QThread::msleep(50);
             while (!(arduino->waitForReadyRead())){
 
             }
+            */
             QByteArray rawTempData = arduino->readLine();
             double currTemperature = rawTempData.trimmed().toDouble();
+            arduino->clear();
 
             // add data to lines:
-            ui->txtData->document()->setPlainText("Current Time: ");
-            ui->txtData->document()->setPlainText(QString::number(tick));
-            ui->txtData->document()->setPlainText("\n");
+            //ui->txtData->document()->setPlainText("Current Time: ");
+            //ui->txtData->document()->setPlainText(QString::number(tick));
+            //ui->txtData->document()->setPlainText("\n");
+            //
+            qDebug() << "time:" << QString::number(tick);
+
+            //ui->txtData->moveCursor(QTextCursor::End);
+            data << QString::number(tick) << endl;
 
             ui->plot_pres->graph(0)->addData(tick, currPressure);
-            ui->txtData->document()->setPlainText("Current Pressure: ");
-            ui->txtData->document()->setPlainText(QString::number(currPressure));
-            ui->txtData->document()->setPlainText("\n");
+            //ui->txtData->document()->setPlainText("Current Pressure: ");
+            //ui->txtData->document()->setPlainText(QString::number(currPressure));
+            //ui->txtData->document()->setPlainText("\n");
 
             ui->plot_temp->graph(0)->addData(tick, currTemperature);
-            ui->txtData->document()->setPlainText("Current Temperature: ");
-            ui->txtData->document()->setPlainText(QString::number(currTemperature));
-            ui->txtData->document()->setPlainText("\n");
+            //ui->txtData->document()->setPlainText("Current Temperature: ");
+            //ui->txtData->document()->setPlainText(QString::number(currTemperature));
+            //ui->txtData->document()->setPlainText("\n");
 
             // rescale value (vertical) axis to fit the current data:
             ui->plot_pres->graph(0)->rescaleValueAxis();
             ui->plot_temp->graph(0)->rescaleValueAxis();
             lastTick = tick;
+
+            // write to output in mainwindow data tab
+            ui->txtData->moveCursor(QTextCursor::End);
+
+            ui->txtData->insertPlainText("Current Time: ");
+            ui->txtData->insertPlainText(QString::number(tick));
+            ui->txtData->insertPlainText("\n");
+
+            ui->txtData->insertPlainText("Current Pressure: ");
+            ui->txtData->insertPlainText(QString::number(currPressure));
+            ui->txtData->insertPlainText("\n");
+
+            ui->txtData->insertPlainText("Current Temperature: ");
+            ui->txtData->insertPlainText(QString::number(currTemperature));
+            ui->txtData->insertPlainText("\n");
+
+            // write to log file
+
+            //data << "Current Time: " << endl;
+            data << QString::number(tick);
+            data << ",";
+
+            //data << "Current Pressure: " << endl;
+            data << QString::number(currPressure);
+            data << ",";
+
+            //data << "Current Temperature: " << endl;
+            data << QString::number(currTemperature) << endl;
         }
         /*
         if (tick-lastTick > 1 && arduino->waitForReadyRead()) // refresh every 1s and see if there is data to be read
@@ -184,6 +239,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btn_run_clicked()
 {
+    qDebug() << "run clicked";
+    paused = false;
     // read in values from spinboxes
     pressureSetPoint=ui->sb_pres->value();
     pressureKd = ui->sb_kd_pres->value();

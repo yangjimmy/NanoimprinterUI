@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QSerialPort>
 #include <QString>
+#include <QFile>
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +44,8 @@ private:
     double tempKp;
     double tempKd;
     int heatTime;
+    QFile *log;
+
     //SPI
     QSerialPort *arduino;
     //static const quint16 arduino_mega_vendor_id = 9025; // fixed for specific product (this case, arduino mega)
