@@ -6,232 +6,250 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>759</width>
-    <height>457</height>
+    <width>945</width>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTabWidget" name="TabSetttings">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>741</width>
-      <height>373</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="tab_settings">
-     <attribute name="title">
-      <string>Settings</string>
-     </attribute>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="5" column="1">
-       <widget class="QDoubleSpinBox" name="sb_kp_temp"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="sb_temp"/>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="label_9">
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Temperature Settings</string>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="TabSetttings">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_settings">
+       <attribute name="title">
+        <string>Settings</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="5" column="3">
+         <widget class="QDoubleSpinBox" name="sb_kp_pres"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Kp</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="3">
+         <widget class="QDoubleSpinBox" name="sb_kd_pres"/>
+        </item>
+        <item row="11" column="1">
+         <widget class="QDoubleSpinBox" name="sb_kd_temp"/>
+        </item>
+        <item row="6" column="0">
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="8" column="3">
+         <widget class="QDoubleSpinBox" name="sb_ki_pres"/>
+        </item>
+        <item row="5" column="1">
+         <widget class="QDoubleSpinBox" name="sb_kp_temp"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_temp">
+          <property name="text">
+           <string>Imprint Temperature (C)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Ki</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" colspan="2">
+         <widget class="QLabel" name="label_10">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>330</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Pressure Settings</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QDoubleSpinBox" name="sb_pres"/>
+        </item>
+        <item row="4" column="0">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLabel" name="kp_pres">
+          <property name="text">
+           <string>Kp</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Imprint Pressure (Bar)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="ki_pres">
+          <property name="text">
+           <string>Ki</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="3" column="1">
+         <widget class="QDoubleSpinBox" name="sb_temp"/>
+        </item>
+        <item row="11" column="2">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Kd</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Kd</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QDoubleSpinBox" name="sb_ki_temp"/>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="label_9">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Temperature Settings</string>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Heat Time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="1">
+         <widget class="QSpinBox" name="sb_heat_time"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_monitor">
+       <property name="locale">
+        <locale language="English" country="UnitedStates"/>
+       </property>
+       <attribute name="title">
+        <string>Monitor</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCustomPlot" name="plot_temp" native="true"/>
+        </item>
+        <item>
+         <widget class="QCustomPlot" name="plot_pres" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_data">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <attribute name="title">
+        <string>Data</string>
+       </attribute>
+       <widget class="QPlainTextEdit" name="txtData">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>901</width>
+          <height>411</height>
+         </rect>
         </property>
        </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QDoubleSpinBox" name="sb_pres"/>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="kp_pres">
-        <property name="text">
-         <string>Kp</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Ki</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="8" column="2">
-       <widget class="QLabel" name="ki_pres">
-        <property name="text">
-         <string>Ki</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="8" column="3">
-       <widget class="QDoubleSpinBox" name="sb_ki_pres"/>
-      </item>
-      <item row="11" column="3">
-       <widget class="QDoubleSpinBox" name="sb_kd_pres"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Kp</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Kd</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="8" column="1">
-       <widget class="QDoubleSpinBox" name="sb_ki_temp"/>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Imprint Pressure (Bar)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_temp">
-        <property name="text">
-         <string>Imprint Temperature (C)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <widget class="QDoubleSpinBox" name="sb_kp_pres"/>
-      </item>
-      <item row="11" column="1">
-       <widget class="QDoubleSpinBox" name="sb_kd_temp"/>
-      </item>
-      <item row="11" column="2">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Kd</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2" colspan="2">
-       <widget class="QLabel" name="label_10">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>330</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>15</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Pressure Settings</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="tab_monitor">
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
-     <attribute name="title">
-      <string>Monitor</string>
-     </attribute>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QCustomPlot" name="plot_temp" native="true"/>
-      </item>
-      <item>
-       <widget class="QCustomPlot" name="plot_pres" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="btn_run">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>370</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Begin</string>
-    </property>
-   </widget>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_run">
+      <property name="text">
+       <string>Begin</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>759</width>
+     <width>945</width>
      <height>21</height>
     </rect>
    </property>
@@ -276,8 +294,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>54</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>379</x>

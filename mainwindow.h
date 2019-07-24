@@ -24,9 +24,7 @@ public:
     double serialReceived();
 
 private slots:
-    void on_btn_clear_clicked();
     void realtimeDataSlot();
-    void on_btn_pause_clicked();
     void send(QString command);
     void on_btn_run_clicked();
 
@@ -44,6 +42,7 @@ private:
     double tempKi;
     double tempKp;
     double tempKd;
+    int heatTime;
     //SPI
     QSerialPort *arduino;
     //static const quint16 arduino_mega_vendor_id = 9025; // fixed for specific product (this case, arduino mega)

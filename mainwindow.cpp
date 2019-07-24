@@ -101,6 +101,7 @@ void MainWindow::realtimeDataSlot()
             }
             QByteArray rawPressureData = arduino->readLine();
             double currPressure = rawPressureData.trimmed().toDouble();
+
             QString readCommandTemp = "#RTMP\n";
             send(readCommandTemp);
             QThread::msleep(50);
@@ -109,9 +110,22 @@ void MainWindow::realtimeDataSlot()
             }
             QByteArray rawTempData = arduino->readLine();
             double currTemperature = rawTempData.trimmed().toDouble();
+
             // add data to lines:
+            ui->txtData->document()->setPlainText("Current Time: ");
+            ui->txtData->document()->setPlainText(QString::number(tick));
+            ui->txtData->document()->setPlainText("\n");
+
             ui->plot_pres->graph(0)->addData(tick, currPressure);
+            ui->txtData->document()->setPlainText("Current Pressure: ");
+            ui->txtData->document()->setPlainText(QString::number(currPressure));
+            ui->txtData->document()->setPlainText("\n");
+
             ui->plot_temp->graph(0)->addData(tick, currTemperature);
+            ui->txtData->document()->setPlainText("Current Temperature: ");
+            ui->txtData->document()->setPlainText(QString::number(currTemperature));
+            ui->txtData->document()->setPlainText("\n");
+
             // rescale value (vertical) axis to fit the current data:
             ui->plot_pres->graph(0)->rescaleValueAxis();
             ui->plot_temp->graph(0)->rescaleValueAxis();
@@ -180,6 +194,7 @@ void MainWindow::on_btn_run_clicked()
     tempKd=ui->sb_kd_temp->value();
     tempKi=ui->sb_ki_temp->value();
     tempKp=ui->sb_kp_temp->value();
+    heatTime=ui->sb_heat_time->value();
 
     // format values
     QString pressureCommand="#SPRS";
@@ -202,6 +217,8 @@ void MainWindow::on_btn_run_clicked()
     tempCommand.append(QString::number(tempKi));
     tempCommand.append("D");
     tempCommand.append(QString::number(tempKd));
+    tempCommand.append("T");
+    tempCommand.append(QString::number(heatTime));
     tempCommand.append("\n");
 
     // send commands to Arduino
