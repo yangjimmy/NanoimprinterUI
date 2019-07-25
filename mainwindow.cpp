@@ -15,9 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->txtData->setPlainText("Welcome\n");
 
+
     // set up file
     log = new QFile("log.txt");
     log->open(QIODevice::WriteOnly);
+
+    QTextStream data(log);
+    data << "-- begin run --" << endl;
 
     // set up serial
     arduino_is_available = false;
@@ -95,7 +99,7 @@ void MainWindow::setupSPI(){
 void MainWindow::realtimeDataSlot()
 {
     QTextStream data(log);
-    data << "-- begin run --" << endl;
+
     if (!paused){
         static QTime time(QTime::currentTime());
 
@@ -116,7 +120,7 @@ void MainWindow::realtimeDataSlot()
             double currPressure = rawPressureData.trimmed().toDouble();
 
             if (currPressure > (double)35.0){
-                // temporary fix for random spikes
+                //temporary fix for random spikes
                 currPressure = 0;
             }
             arduino->clear();
