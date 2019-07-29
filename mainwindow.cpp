@@ -107,7 +107,6 @@ void MainWindow::realtimeDataSlot()
         double tick = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
         static double lastTick = 0;
         if (tick-lastTick > 0.1) {
-            qDebug() << "time interval" << tick-lastTick;
             QString readCommandPressure = "#RPRS\n";
             send(readCommandPressure);
             /*
@@ -138,24 +137,11 @@ void MainWindow::realtimeDataSlot()
             arduino->clear();
 
             // add data to lines:
-            //ui->txtData->document()->setPlainText("Current Time: ");
-            //ui->txtData->document()->setPlainText(QString::number(tick));
-            //ui->txtData->document()->setPlainText("\n");
-            //
-            qDebug() << "time:" << QString::number(tick);
-
-            //ui->txtData->moveCursor(QTextCursor::End);
             data << QString::number(tick) << endl;
 
             ui->plot_pres->graph(0)->addData(tick, currPressure);
-            //ui->txtData->document()->setPlainText("Current Pressure: ");
-            //ui->txtData->document()->setPlainText(QString::number(currPressure));
-            //ui->txtData->document()->setPlainText("\n");
 
             ui->plot_temp->graph(0)->addData(tick, currTemperature);
-            //ui->txtData->document()->setPlainText("Current Temperature: ");
-            //ui->txtData->document()->setPlainText(QString::number(currTemperature));
-            //ui->txtData->document()->setPlainText("\n");
 
             // rescale value (vertical) axis to fit the current data:
             ui->plot_pres->graph(0)->rescaleValueAxis();
