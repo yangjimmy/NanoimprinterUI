@@ -6,6 +6,7 @@
 #include <QString>
 #include <QFile>
 #include <QTextStream>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,9 +16,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->txtData->setPlainText("Welcome\n");
 
-
+    QDateTime datetime;
     // set up file
-    log = new QFile("log.txt");
+    QString filename = "log_";
+    filename.append(datetime.toString());
+    log = new QFile(filename);
     log->open(QIODevice::WriteOnly);
 
     QTextStream data(log);
@@ -26,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // set up serial
     arduino_is_available = false;
     arduino_port_name = "";
-    arduino = new QSerialPort;
+    arduino = new QSerialPort(this);
 
     setupSPI();
     paused = true;
@@ -106,7 +109,10 @@ void MainWindow::realtimeDataSlot()
         // add new data to plot
         double tick = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
         static double lastTick = 0;
-        if (tick-lastTick > 0.1) {
+        if (tick-lastTick > 1 && arduino->waitForReadyRead()) {
+
+            qDebug()<<arduino->readLine()<<"read arduino";
+
             QString readCommandPressure = "#RPRS\n";
             send(readCommandPressure);
             /*
@@ -265,7 +271,7 @@ void MainWindow::on_btn_run_clicked()
     tempCommand.append("D");
     tempCommand.append(QString::number(tempKd));
     tempCommand.append("T");
-    tempCommand.append(QString::number(heatTime));
+    tempCommand.append(QString::number(heatTime*60)); // convert heating time to seconds
     tempCommand.append("\n");
 
     // send commands to Arduino
